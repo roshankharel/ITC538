@@ -1,24 +1,21 @@
 package main;
 
+import java.util.Map;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.TreeMap;
 
 public class ProcessMarks {
-//	static final class GRADE {
-//		static final int A = 85;
-//		static final int B = 75;
-//		static final int C = 65;
-//		static final int D = 50;
-//	}
 
-	static final HashMap<Character, Integer> gradesMap = new HashMap<Character, Integer>();
+	private static Map<Character, Integer> getGradeSymbolsWithLowerBoundery() {
+		Map<Character, Integer> grades = new TreeMap<Character, Integer>();
 
-	public static void main(String[] args) {
-		gradesMap.put('A', 85);
-		gradesMap.put('B', 75);
-		gradesMap.put('C', 65);
-		gradesMap.put('D', 50);
+		grades.put('A', 85);
+		grades.put('B', 75);
+		grades.put('C', 65);
+		grades.put('D', 50);
+
+		return grades;
 	}
 
 	public static int max(int[] marks) {
@@ -103,9 +100,12 @@ public class ProcessMarks {
 			int grade = marks[i];
 			boolean graded = false;
 
-			for (Map.Entry<Character, Integer> entry : gradesMap.entrySet()) {
-				if (grade >= entry.getValue()) {
-					studentGrades[i] = entry.getKey();
+			for (Map.Entry<Character, Integer> entry : getGradeSymbolsWithLowerBoundery().entrySet()) {
+				char gradeSymbol = entry.getKey();
+				int lowerBoundry = entry.getValue();
+				
+				if (grade >= lowerBoundry) {
+					studentGrades[i] = gradeSymbol;
 					graded = true;
 					break;
 				}
