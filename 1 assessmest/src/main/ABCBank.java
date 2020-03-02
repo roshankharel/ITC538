@@ -39,25 +39,28 @@ public class ABCBank {
 	}
 
 	public static void main(String[] args) {
+
+		System.out.println("");
 		new ABCBank().run();
 	}
 	
 	public ABCBank deposit(String clientName, int terms, double depositAmount) {
 		double intrest = calculateInterest(depositAmount, terms);
+		String line = "-".repeat(42);
 		
 		Client client = getOrMakeClient(clientName).deposit(depositAmount).deposit(intrest);
 		
 		System.out.printf(
-				"------------------------------------------\n" +
-				"                  ABCBank                 \n" +
-			    "       Return on Bank Term Deposits       \n" +
-			    "------------------------------------------\n\n" +
+				"\n" + line + "\n\n" +
+				centerText("ABCBank", 42) + "\n\n" +
+			    centerText("Return on Bank Term Deposits", 42) + "\n\n" +
+			    line + "\n\n" +
 			    "Client: %s\n" +
 			    "Deposit Amount: %.2f\n" +
 			    "Term: %s\n" +
 			    "Interest Earned: $%.2f\n" +
-			    "Final Balance: $%.2f\n" +
-			    "------------------------------------------",
+			    "Final Balance: $%.2f\n\n" +
+			    line,
 			    clientName, depositAmount, terms, intrest, client.getBalance()
 		);
 		
@@ -117,6 +120,13 @@ public class ABCBank {
 		keyboard.close();
 		
 		deposit(clientName, terms, depositAmount);
+	}
+	
+	protected String centerText(String str, int width) {
+		return String.format(
+				"%-" + width  + "s",
+				String.format("%" + (str.length() + (width - str.length()) / 2) + "s", str)
+		);
 	}
 }
 
