@@ -20,10 +20,16 @@ public class ABCBank {
 		double totalBalance = depositAmount + interest;
 
 		System.out.printf(
-				"\n" + horizontalDashedLine + "\n\n" + centerText("ABCBank", 42) + "\n\n"
-						+ centerText("Return on Bank Term Deposits", 42) + "\n\n" + horizontalDashedLine + "\n\n"
-						+ "Client: %s\n" + "Deposit Amount: $%.2f\n" + "Term: %s Month" + (terms > 1 ? "s" : "") + "\n"
-						+ "Interest Earned: $%.2f\n" + "Final Balance: $%.2f\n\n" + horizontalDashedLine,
+					"\n" + horizontalDashedLine + "\n\n"
+					+ centerText("ABCBank", 42) + "\n\n"
+					+ centerText("Return on Bank Term Deposits", 42) + "\n\n"
+					+ horizontalDashedLine + "\n\n"
+					+ "Client: %s\n"
+					+ "Deposit Amount: $%.2f\n"
+					+ "Term: %s Month" + (terms > 1 ? "s" : "") + "\n"
+					+ "Interest Earned: $%.2f\n"
+					+ "Final Balance: $%.2f\n\n"
+					+ horizontalDashedLine,
 				clientName, depositAmount, terms, interest, totalBalance);
 
 		return this;
