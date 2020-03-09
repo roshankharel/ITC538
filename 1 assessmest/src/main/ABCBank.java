@@ -13,12 +13,12 @@ import java.util.Scanner;
 public class ABCBank {
 	protected Scanner keyboard;
 
-	public ABCBank() {
-		keyboard = new Scanner(System.in);
-	}
-
 	public static void main(String[] args) {
 		new ABCBank().ready();
+	}
+	
+	public ABCBank() {
+		keyboard = new Scanner(System.in);
 	}
 
 	/**
