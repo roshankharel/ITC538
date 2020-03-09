@@ -48,19 +48,16 @@ public class ZooTicket {
 		System.out.printf("Total takings: $%d\n", totalCharge);
 	}
 	
+	
 	void showTotal(int children, int adults, int seniors) {
-		int numberOfAccompaniedChildren = children;
-		int numberOfUnaccompaniedChildren = 0;
+		int numberOfAccompaniedChildren = getNumberOfAccompaniedChildren(children, adults, seniors);
+		int numberOfUnaccompaniedChildren = getNumberOfUnaccompaniedChildren(children, adults, seniors);
 		
-		if(children > adults + seniors) {
-			numberOfUnaccompaniedChildren = children - (adults + seniors);
-			numberOfAccompaniedChildren -= numberOfUnaccompaniedChildren;
-		}
 		
-		int accompaniedChildrenCost = numberOfAccompaniedChildren * ACCOMPANIED_CHILDREN_COST;
-		int unacompaniedChildrenCost = numberOfUnaccompaniedChildren * UNACCOMPANIED_CHILDREN_COST;
-		int adultCost = adults * ADULT_COST;
-		int seniorCost = seniors * SENIOR_COST;
+		int accompaniedChildrenCost = calculateAccompaniedChildrenCost(numberOfAccompaniedChildren);
+		int unacompaniedChildrenCost = calculateUnaccompaniedChildrenCost(numberOfUnaccompaniedChildren);
+		int adultCost = calculateAdultCost(adults);
+		int seniorCost = calculateSeniorCost(seniors);
 		
 		int groupCharge = accompaniedChildrenCost + unacompaniedChildrenCost + adultCost + seniorCost;
 		
@@ -68,5 +65,28 @@ public class ZooTicket {
 		
 		System.out.printf("Total entry charge is $%d\n\n", groupCharge);
 	}
+	
+	protected int calculateAccompaniedChildrenCost(int count) {
+		return count * ACCOMPANIED_CHILDREN_COST;
+	}
 
+	protected int calculateUnaccompaniedChildrenCost(int count) {
+		return count * UNACCOMPANIED_CHILDREN_COST;
+	}
+	
+	protected int calculateAdultCost(int count) {
+		return count * ADULT_COST;
+	}
+	
+	protected int calculateSeniorCost(int count) {
+		return count * SENIOR_COST;
+	}
+	
+	protected int getNumberOfAccompaniedChildren(int children, int adults, int seniors) {
+		return children > adults + seniors ? children - adults - seniors : children;
+	}
+	
+	protected int getNumberOfUnaccompaniedChildren(int children, int adults, int seniors) {
+		return children - getNumberOfAccompaniedChildren(children, adults, seniors);
+	}
 }

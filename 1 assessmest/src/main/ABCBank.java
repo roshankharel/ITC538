@@ -159,7 +159,7 @@ public class ABCBank {
 		double interest = 0.0;
 		double years = Double.valueOf(terms) / 12d;
 
-		if (amount < 1000) {
+		if (amount <= 1000) {
 			interest = amount * 0.02;
 		} else if (amount > 1000 && amount <= 5000) {
 			interest = amount * 0.025;
