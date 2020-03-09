@@ -28,7 +28,7 @@ public class ABCBank {
 		while (true) {
 			run();
 
-			System.out.print("\n\nCalculate interest for another client? [Yes (Y or Yes) / No (any key)]: ");
+			System.out.print("\nCalculate interest for another client? [Yes (Y or Yes) / No (any key)]: ");
 
 			String keepGoing = keyboard.nextLine().strip().toLowerCase();
 
@@ -47,8 +47,17 @@ public class ABCBank {
     * Method to allow user to calculate single client's interest interactively
     */
 	public void run() {
+		String horizontalDashedLine = "-".repeat(50);
+
+		System.out.printf(
+				horizontalDashedLine + "\n"
+				+ centerText("ABCBank", 50) + "\n"
+				+ centerText("Enter client's details to calulate the intrest.", 50) + "\n"
+				+ horizontalDashedLine + "\n\n"
+		);
+
 		String clientName = askClientName();
-		double depositAmount = askDepositeAmount();
+		double depositAmount = askdepositAmount();
 		int terms = askNumberOfTerms();
 
 		deposit(clientName, terms, depositAmount);
@@ -61,13 +70,16 @@ public class ABCBank {
 	*/
 	protected String askClientName() {
 		do {
-			System.out.printf("\nEnter client's name: ");
+			System.out.printf("Enter client's name: ");
 			String clientName = keyboard.nextLine();
 
-			if (clientName.strip().length() > 0)
+			if (clientName.strip().length() > 0) {
+				System.out.println();
+				
 				return clientName;
+			}
 
-			System.out.println("Error: Client's name should be at least single character.");
+			System.out.println("Error: Client's name should be at least single character.\n");
 		} while (true);
 	}
 
@@ -76,19 +88,22 @@ public class ABCBank {
 	*
 	* @return Client's deposit amount
 	*/
-	protected double askDepositeAmount() {
+	protected double askdepositAmount() {
 		do {
-			System.out.printf("\nEnter deposit amount: ");
+			System.out.printf("Enter deposit amount: ");
 
 			try {
 				double depositAmount = Double.valueOf(keyboard.nextLine());
 
-				if (depositAmount > 0)
+				if (depositAmount > 0) {
+					System.out.println();					
+					
 					return depositAmount;
+				}
 
-				System.out.println("Error: Deposite amount should be a greater than 0 (zero).");
+				System.out.println("Error: deposit amount should be a greater than 0 (zero).\n");
 			} catch (NumberFormatException e) {
-				System.out.println("Error: Deposite amount should be a valid number.");
+				System.out.println("Error: deposit amount should be a valid number.\n");
 			}
 		} while (true);
 	}
@@ -100,17 +115,20 @@ public class ABCBank {
 	*/
 	protected int askNumberOfTerms() {
 		do {
-			System.out.print("\nEnter terms (in months): ");
+			System.out.print("Enter terms (in months): ");
 
 			try {
 				int terms = Integer.valueOf(keyboard.nextLine());
 
-				if (terms > 0)
+				if (terms > 0) {
+					System.out.println();
+					
 					return terms;
+				}
 
-				System.out.println("Error: Terms must be greater than 0 (zero).");
+				System.out.println("Error: Terms must be greater than 0 (zero).\n");
 			} catch (NumberFormatException e) {
-				System.out.println("Error: Terms must be a valid integer.");
+				System.out.println("Error: Terms must be a valid integer.\n");
 			}
 		} while (true);
 	}
@@ -127,21 +145,21 @@ public class ABCBank {
     */
 	public ABCBank deposit(String clientName, int terms, double depositAmount) {
 		double interest = calculateInterest(depositAmount, terms);
-		String horizontalDashedLine = "-".repeat(42);
+		String horizontalDashedLine = "-".repeat(50);
 
 		double finalBalance = depositAmount + interest;
 
 		System.out.printf(
-				"\n" + horizontalDashedLine + "\n\n"
-				+ centerText("ABCBank", 42) + "\n\n"
-				+ centerText("Return on Bank Term Deposits", 42) + "\n\n"
+				horizontalDashedLine + "\n"
+				+ centerText("ABCBank", 50) + "\n"
+				+ centerText("Return on Bank Term Deposits", 50) + "\n"
 				+ horizontalDashedLine + "\n\n"
 				+ "Client: %s\n"
 				+ "Deposit Amount: $%.2f\n"
 				+ "Term: %s Month" + (terms > 1 ? "s" : "") + "\n"
 				+ "Interest Earned: $%.2f\n"
 				+ "Final Balance: $%.2f\n\n"
-				+ horizontalDashedLine,
+				+ horizontalDashedLine + "\n",
 			clientName, depositAmount, terms, interest, finalBalance);
 
 		return this;
