@@ -24,35 +24,38 @@ public class ABCBank {
      * Method to allow user to calculate multiple clients' interest interactively
      */
     public void ready() {
-        while (true) {
+        while (true) { // run indefinitely
             run();
 
             System.out.print("\nCalculate interest for another client? [Yes (Y or Yes) / No (any key)]: ");
 
-            String keepGoing = keyboard.nextLine().strip().toLowerCase();
+            // get keyboard input, trim leading and trailing whitespace, and convert to
+            // lower case
+            String keepGoing = keyboard.nextLine().trim().toLowerCase();
 
             System.out.println();
 
-            if (keepGoing.equals("yes") || keepGoing.equals("y"))
-                continue;
+            if (keepGoing.equals("yes") || keepGoing.equals("y")) {
+                continue; // end current loop iteration
+            }
 
-            break;
+            break; // exit the loop
         }
 
-        keyboard.close();
+        keyboard.close(); // close the scanner (keyboard input stream)
     }
 
     /**
      * Method to allow user to calculate single client's interest interactively
      */
     public void run() {
-        String horizontalDashedLine = "-".repeat(50);
+        String horizontalDashedLine = "-".repeat(50); // repeat "-" string 50 times
 
         System.out.printf(
             horizontalDashedLine + "\n"
             + centerText("ABCBank", 50) + "\n"
-            + centerText("Enter client's details to calulate the intrest.", 50)
-            + "\n" + horizontalDashedLine + "\n\n"
+            + centerText("Enter client's details to calulate the intrest.", 50) + "\n"
+            + horizontalDashedLine + "\n\n"
         );
 
         String clientName = askClientName();
@@ -70,16 +73,18 @@ public class ABCBank {
     protected String askClientName() {
         do {
             System.out.printf("Enter client's name: ");
-            String clientName = keyboard.nextLine();
+            String clientName = keyboard.nextLine(); // get keyboard input from CLI
 
-            if (clientName.strip().length() > 0) {
+            // check if string contains character(s) other than whitespace
+            if (clientName.trim().length() > 0) {
                 System.out.println();
 
                 return clientName;
             }
 
+            // print error message
             System.out.println("Error: Client's name should be at least single character.\n");
-        } while (true);
+        } while (true); // run indefinitely
     }
 
     /**
@@ -89,22 +94,26 @@ public class ABCBank {
      */
     protected double askdepositAmount() {
         do {
-            System.out.printf("Enter deposit amount: ");
+            System.out.print("Enter deposit amount: ");
 
             try {
-                double depositAmount = Double.valueOf(keyboard.nextLine());
+                String userInput = keyboard.nextLine();
+                // parse user input to double
+                double depositAmount = Double.valueOf(userInput);
 
                 if (depositAmount > 0) {
                     System.out.println();
 
-                    return depositAmount;
+                    return depositAmount; // terminate loop and return deposit amount
                 }
 
+                // display error message
                 System.out.println("Error: deposit amount should be a greater than 0 (zero).\n");
             } catch (NumberFormatException e) {
+                // display error message
                 System.out.println("Error: deposit amount should be a valid number.\n");
             }
-        } while (true);
+        } while (true); // run indefinitely
     }
 
     /**
@@ -117,16 +126,21 @@ public class ABCBank {
             System.out.print("Enter terms (in months): ");
 
             try {
-                int terms = Integer.valueOf(keyboard.nextLine());
+                String userInput = keyboard.nextLine();
+
+                // parse user input to integer
+                int terms = Integer.valueOf(userInput);
 
                 if (terms > 0) {
                     System.out.println();
 
-                    return terms;
+                    return terms; // terminate loop and return terms
                 }
 
+                // display error message
                 System.out.println("Error: Terms must be greater than 0 (zero).\n");
             } catch (NumberFormatException e) {
+                // display error message
                 System.out.println("Error: Terms must be a valid integer.\n");
             }
         } while (true);
@@ -148,16 +162,17 @@ public class ABCBank {
 
         double finalBalance = depositAmount + interest;
 
+        // amounts are formatted using "$%,.2f" which prefixes number with $ symbol,
+        // places comma(,) on every thousands place, and rounds to two decimal places
         System.out.printf(
                 horizontalDashedLine + "\n"
                 + centerText("ABCBank", 50) + "\n"
-                + centerText("Return on Bank Term Deposits", 50)
-                + "\n" + horizontalDashedLine + "\n\n"
-                    + "Client: %s\n"
-                    + "Deposit Amount: $%.2f\n"
-                    + "Term: %s Month" + (terms > 1 ? "s" : "") + "\n"
-                    + "Interest Earned: $%.2f\n"
-                    + "Final Balance: $%.2f\n\n"
+                + centerText("Return on Bank Term Deposits", 50) + "\n"
+                + horizontalDashedLine + "\n\n"
+                + "Client: %s\n" + "Deposit Amount: $%,.2f\n"
+                + "Term: %s Month" + (terms > 1 ? "s" : "") + "\n"
+                + "Interest Earned: $%,.2f\n"
+                + "Final Balance: $%,.2f\n\n"
                 + horizontalDashedLine + "\n",
             clientName, depositAmount, terms, interest, finalBalance
         );
@@ -175,17 +190,24 @@ public class ABCBank {
      */
     protected double calculateInterest(double amount, int terms) {
         double interest = 0.0;
+        // convert terms in months to years
+        // e.g. 6 months terms = 6/12 years = 0.5years
         double years = Double.valueOf(terms) / 12d;
 
-        if (amount <= 1000) {
+        if (amount < 1000) {
+            // deposit amount is less then 1000
             interest = amount * 0.02;
-        } else if (amount > 1000 && amount <= 5000) {
+        } else if (amount >= 1000 && amount < 5000) {
+            // deposit amount is greater than or equal to 1000 and less than 5000
             interest = amount * 0.025;
-        } else if (amount > 5000 && amount <= 10000) {
+        } else if (amount >= 5000 && amount < 10000) {
+            // deposit amount is greater than or equal to 5000 and less than 10000
             interest = amount * 0.03;
-        } else if (amount > 10000 && amount <= 20000) {
+        } else if (amount >= 10000 && amount < 20000) {
+            // deposit amount is greater than or equal to 10000 and less than 20000
             interest = amount * 0.035;
         } else {
+            // deposit amount is greater than or equal to 20000
             interest = amount * 0.04;
         }
 
