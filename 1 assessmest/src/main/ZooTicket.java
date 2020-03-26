@@ -12,13 +12,13 @@ import java.util.Scanner;
  * @author Roshan Kharel, 11691041
  */
 public class ZooTicket {
-    protected final int ACCOMPANIED_CHILDREN_COST   = 2;
+    protected final int ACCOMPANIED_CHILDREN_COST = 2;
     protected final int UNACCOMPANIED_CHILDREN_COST = 5;
-    protected final int ADULT_COST                  = 10;
-    protected final int SENIOR_COST                 = 8;
+    protected final int ADULT_COST = 10;
+    protected final int SENIOR_COST = 8;
 
-    protected int       totalCharge                 = 0;
-    protected Scanner   keyboard;
+    protected int totalCharge = 0;
+    protected Scanner keyboard;
 
     public static void main(String[] args) {
         new ZooTicket().run();
@@ -33,8 +33,6 @@ public class ZooTicket {
      * total takings of all groups
      */
     public void run() {
-        boolean keepGoing = true;
-
         ArrayList<Integer> validChoices = new ArrayList<Integer>();
         validChoices.add(0); // selection 0 will display total takings for a sequence of groups
         validChoices.add(1); // selection 1 will calculate and display the entry charge for each family group
@@ -42,124 +40,87 @@ public class ZooTicket {
         String horizontalDashedLine = "-".repeat(60);
 
         // display welcome message and pricing information
-        System.out.printf(horizontalDashedLine + "\n" + centerText("Welocme to the Zoo", 60) + "\n"
-                + centerText("Our ticketing price is as follows:", 60) + "\n\n"
-                + "Children 5 years old and younger: free\n" + "Accompanied children from 6 to 15 years old: $2 each\n"
-                + "Unaccompanied children from 6 to 15 years old: $5 each\n"
-                + "Adults from 16 to 59 years old: $10 each\n" + "Seniors from 60 years and older: $8 each\n\n"
-                + horizontalDashedLine + "\n\n");
+        System.out.println(
+            horizontalDashedLine + "\n"
+            + centerText("Welocme to the Zoo", 60) + "\n"
+            + centerText("Our ticketing price is as follows:", 60) + "\n\n"
+            + "Children 5 years old and younger: free\n"
+            + "Accompanied children from 6 to 15 years old: $2 each\n"
+            + "Unaccompanied children from 6 to 15 years old: $5 each\n"
+            + "Adults from 16 to 59 years old: $10 each\n"
+            + "Seniors from 60 years and older: $8 each\n\n"
+            + horizontalDashedLine + "\n"
+        );
 
-        do {
+        while(true) {
             System.out.print("Enter a group? (Yes=1/no=0): ");
-            int group;
 
-            try {
-                group = Integer.valueOf(keyboard.nextLine());
+            String group = keyboard.nextLine().trim();
 
-                if (!validChoices.contains(group)) {
-                    System.out.println("Error: only 1 and 0 are accepted values.\n");
-                    continue;
-                }
-
-                System.out.println();
-            } catch (NumberFormatException e) {
+            // check is user's choice is other than 0 and 1
+            if (!group.equals("0") && !group.equals("1") ) {
                 System.out.println("Error: only 1 and 0 are accepted values.\n");
                 continue;
             }
 
-            if (group == 0) {
-                keepGoing = false;
+            System.out.println(); // display empty line
+
+            if(group.equals("0")) { // do not add anymore group
                 showTotal();
-                break;
+                break; // terminate the loop
             }
 
-            int numberOfChildren = askNumberOfChildren();
-            int numberOfAdults = askNumberOfAdults();
-            int numberOfSeniors = askNumberOfSeniors();
+            int numberOfChildren = askInteger(
+                "Enter the number of children (age 6-15): ",
+                "number of children"
+            );
+
+            int numberOfAdults = askInteger(
+                "Enter the number of adults (age 16-59): ",
+                "number of adults"
+            );
+
+            int numberOfSeniors = askInteger(
+                "Enter the number of seniors (age 60+): ",
+                "number of seniors"
+            );
 
             showTotal(numberOfChildren, numberOfAdults, numberOfSeniors);
-        } while (keepGoing);
+        }
 
         keyboard.close();
 
     }
 
     /**
-     * Interactively asks for number of children in a family group
+     * A generic method to interactively asks for an integer value
+     * that is greater than or equal to zero (0)
      *
-     * @return number of children
+     * @param message       a input prompt message
+     * @param label         name of the input
+     *
+     * @return an integer
      */
-    protected int askNumberOfChildren() {
+    protected int askInteger(String message, String label) {
         do {
-            System.out.print("Enter the number of children (age 6-15): ");
-            int numberOfChildren;
+            System.out.print(message);
+            int userInputInteger;
 
             try {
-                numberOfChildren = Integer.valueOf(keyboard.nextLine());
+                String userInput = keyboard.nextLine();
+                // convert user's input to an integer
+                userInputInteger = Integer.valueOf(userInput);
 
-                if (numberOfChildren < 0) {
-                    System.out.println("Error: The value cannot be negative.\n");
+                if (userInputInteger < 0) {
+                    System.out.printf("Error: The %s cannot be negative.\n\n", label);
+                    continue;
                 }
 
                 System.out.println();
 
-                return numberOfChildren;
+                return userInputInteger;
             } catch (NumberFormatException e) {
-                System.out.println("Error: Only integer value is accepted.\n");
-            }
-
-        } while (true);
-    }
-
-    /**
-     * Interactively asks for number of adults in a family group
-     *
-     * @return number of adults
-     */
-    protected int askNumberOfAdults() {
-        do {
-            System.out.print("Enter the number of adults (age 16-59): ");
-            int numberOfChildren;
-
-            try {
-                numberOfChildren = Integer.valueOf(keyboard.nextLine());
-
-                if (numberOfChildren < 0) {
-                    System.out.println("Error: The value cannot be negative.\n");
-                }
-
-                System.out.println();
-
-                return numberOfChildren;
-            } catch (NumberFormatException e) {
-                System.out.println("Error: Only integer value is accepted.\n");
-            }
-
-        } while (true);
-    }
-
-    /**
-     * Interactively asks for number of seniors in a family group
-     *
-     * @return number of seniors
-     */
-    protected int askNumberOfSeniors() {
-        do {
-            System.out.print("Enter the number of seniors (age 60+): ");
-            int numberOfChildren;
-
-            try {
-                numberOfChildren = Integer.valueOf(keyboard.nextLine());
-
-                if (numberOfChildren < 0) {
-                    System.out.println("Error: The value cannot be negative.\n");
-                }
-
-                System.out.println();
-
-                return numberOfChildren;
-            } catch (NumberFormatException e) {
-                System.out.println("Error: Only integer value is accepted.\n");
+                System.out.printf("Error: Only integer value is accepted for %s.\n\n", label);
             }
 
         } while (true);
@@ -171,7 +132,6 @@ public class ZooTicket {
     protected void showTotal() {
         System.out.printf("Total takings: $%d\n", totalCharge);
     }
-    
 
     /**
      * Computes and displays group's total entry charge
@@ -250,12 +210,15 @@ public class ZooTicket {
      * @return number of accompanied children
      */
     protected int getNumberOfAccompaniedChildren(int children, int adults, int seniors) {
-        if (children == 0)
+        if (children == 0) {
+            // there are no children
             return 0;
+        }
 
         int guardians = adults + seniors;
+        int accompaniedChildren = children > guardians ? guardians : children;
 
-        return children > guardians ? children - guardians : children;
+        return accompaniedChildren;
     }
 
     /**
