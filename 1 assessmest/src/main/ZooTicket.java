@@ -71,17 +71,17 @@ public class ZooTicket {
             // the code below is automatically executed as else
             // selection 1 will calculate and display the entry charge for each family group
 
-            int numberOfChildren = askInteger(
+            int numberOfChildren = askPositiveInteger(
                 "Enter the number of children (age 6-15): ",
                 "number of children"
             );
 
-            int numberOfAdults = askInteger(
+            int numberOfAdults = askPositiveInteger(
                 "Enter the number of adults (age 16-59): ",
                 "number of adults"
             );
 
-            int numberOfSeniors = askInteger(
+            int numberOfSeniors = askPositiveInteger(
                 "Enter the number of seniors (age 60+): ",
                 "number of seniors"
             );
@@ -97,12 +97,12 @@ public class ZooTicket {
      * A generic method to interactively asks for an integer value
      * that is greater than or equal to zero (0)
      *
-     * @param message       a input prompt message
+     * @param message       an input prompt message
      * @param label         name of the input
      *
      * @return an integer
      */
-    protected int askInteger(String message, String label) {
+    protected int askPositiveInteger(String message, String label) {
         do {
             System.out.print(message);
             int userInputInteger;
@@ -112,15 +112,18 @@ public class ZooTicket {
                 // convert user's input to an integer
                 userInputInteger = Integer.valueOf(userInput);
 
+                // user input must be positive (greater than -1)
                 if (userInputInteger < 0) {
+                    // show error
                     System.out.printf("Error: The %s cannot be negative.\n\n", label);
                     continue;
                 }
 
-                System.out.println();
+                System.out.println(); // blank line
 
                 return userInputInteger;
             } catch (NumberFormatException e) {
+                // not an integer value
                 System.out.printf("Error: Only integer value is accepted for %s.\n\n", label);
             }
 
@@ -131,6 +134,7 @@ public class ZooTicket {
      * Method to display total takings of all groups
      */
     protected void showTotal() {
+        // display total charge of all groups
         System.out.printf("Total takings: $%d\n", totalCharge);
     }
 
@@ -152,8 +156,10 @@ public class ZooTicket {
 
         int groupCharge = accompaniedChildrenCost + unacompaniedChildrenCost + adultCost + seniorCost;
 
+        // increment total charge by group charge
         totalCharge += groupCharge;
 
+        // display group charge
         System.out.printf("Total entry charge is $%d\n\n", groupCharge);
     }
 
