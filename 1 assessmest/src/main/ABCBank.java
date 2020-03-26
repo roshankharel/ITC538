@@ -54,7 +54,7 @@ public class ABCBank {
         System.out.printf(
             horizontalDashedLine + "\n"
             + centerText("ABCBank", 50) + "\n"
-            + centerText("Enter client's details to calulate the intrest.", 50) + "\n"
+            + centerText("Enter client's details to calulate the interest.", 50) + "\n"
             + horizontalDashedLine + "\n\n"
         );
 
