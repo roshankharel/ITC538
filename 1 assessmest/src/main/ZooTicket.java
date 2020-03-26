@@ -1,6 +1,5 @@
 package main;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -12,10 +11,10 @@ import java.util.Scanner;
  * @author Roshan Kharel, 11691041
  */
 public class ZooTicket {
-    protected final int ACCOMPANIED_CHILDREN_COST = 2;
-    protected final int UNACCOMPANIED_CHILDREN_COST = 5;
     protected final int ADULT_COST = 10;
     protected final int SENIOR_COST = 8;
+    protected final int ACCOMPANIED_CHILDREN_COST = 2;
+    protected final int UNACCOMPANIED_CHILDREN_COST = 5;
 
     protected int totalCharge = 0;
     protected Scanner keyboard;
@@ -33,10 +32,6 @@ public class ZooTicket {
      * total takings of all groups
      */
     public void run() {
-        ArrayList<Integer> validChoices = new ArrayList<Integer>();
-        validChoices.add(0); // selection 0 will display total takings for a sequence of groups
-        validChoices.add(1); // selection 1 will calculate and display the entry charge for each family group
-
         String horizontalDashedLine = "-".repeat(60);
 
         // display welcome message and pricing information
@@ -52,6 +47,7 @@ public class ZooTicket {
             + horizontalDashedLine + "\n"
         );
 
+        // runs untill terminated
         while(true) {
             System.out.print("Enter a group? (Yes=1/no=0): ");
 
@@ -65,10 +61,15 @@ public class ZooTicket {
 
             System.out.println(); // display empty line
 
-            if(group.equals("0")) { // do not add anymore group
+            // selection 0 will display total takings for a sequence
+            // of groups and terminates the program
+            if(group.equals("0")) {
                 showTotal();
                 break; // terminate the loop
             }
+
+            // the code below is automatically executed as else
+            // selection 1 will calculate and display the entry charge for each family group
 
             int numberOfChildren = askInteger(
                 "Enter the number of children (age 6-15): ",
